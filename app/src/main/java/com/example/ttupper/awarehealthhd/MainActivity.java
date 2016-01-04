@@ -1,5 +1,6 @@
 package com.example.ttupper.awarehealthhd;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
@@ -35,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setMinimumFontSize(1);
+        settings.setLoadWithOverviewMode(true);
 
         webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        progressBar = ProgressDialog.show(MainActivity.this, "", "Loading resources...");
+        progressBar = ProgressDialog.show(MainActivity.this, "", "Loading AwareHealth 1.0...");
 
         webview.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // progressBar = ProgressDialog.show(MainActivity.this, "AwareHealth 1.0...", "Loading...");
                 Log.i(TAG, "Processing webview url click...");
                 view.loadUrl(url);
                 return true;
@@ -52,9 +53,14 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 Log.i(TAG, "Finished loading URL: " + url);
                 if (progressBar.isShowing()) {
-                    progressBar.dismiss();
+                    progressBar.hide();
 
                 }
+
+            }
+
+            public void onPageStarted(WebView view, String url, Bitmap favIcon) {
+                progressBar.show();
 
             }
 
